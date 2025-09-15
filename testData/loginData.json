@@ -1,0 +1,12 @@
+{
+  "data": [
+    {
+      "emailAddress": "sdetdnuser01@yopmail.com",
+      "password": "Password"
+    },
+    {
+      "emailAddress": "randomemailaddress@outlook.com",
+      "password": "Password"
+    }
+  ]
+}
