@@ -21,7 +21,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Running test Automation Framework with maven
-      run: mvn test -X -Dbrowser=chrome -DisLambdaTest=true -DisHeadless=false
+      run: mvn clean install
       
     - name: Upload Test logs
       if: always()
