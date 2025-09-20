@@ -20,8 +20,11 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
+    - name: Downloading maven dependency
+      run: mvn clean install -DskipTests
+
     - name: Running test Automation Framework with maven
-      run: mvn clean install
+      run: mvn test -Dbrowser=chrome -DisLambdaTest=true -DisHeadless=false
       
     - name: Upload Test logs
       if: always()
