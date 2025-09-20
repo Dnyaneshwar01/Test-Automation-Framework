@@ -7,10 +7,7 @@ import com.utility.LoggerUtility;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
+import org.testng.annotations.*;
 
 import static com.constants.Browser.CHROME;
 
@@ -22,7 +19,7 @@ public class TestBase {
     private boolean isLambdaTest = true;
 
     @Parameters({"browser","isLambdaTest", "isHeadless"})
-    @BeforeMethod (description = "Load the Homepage of the website")
+    @BeforeClass(description = "Load the Homepage of the website")
     public void setup(
             @Optional("chrome") String browser,
             @Optional("false") boolean isLambdaTest,

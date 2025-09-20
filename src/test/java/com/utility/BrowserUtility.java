@@ -27,15 +27,6 @@ public abstract class BrowserUtility {
         this.driver.set(driver);
     }
 
-    public BrowserUtility(Browser browserName) {
-        if (browserName == Browser.CHROME)
-            driver.set(new ChromeDriver());
-        else if (browserName == Browser.EDGE)
-            driver.set(new EdgeDriver());
-        else if (browserName == Browser.FIREFOX)
-            driver.set(new FirefoxDriver());
-    }
-
     public BrowserUtility(Browser browserName,boolean isHeadless) {
         if (browserName == Browser.CHROME) {
             if(isHeadless) {
@@ -98,7 +89,7 @@ public abstract class BrowserUtility {
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH-mm-ss");
         String timeStamp = simpleDateFormat.format(date);
-        String path = System.getProperty("user.dir") + "//Screenshot//" + name +" - " + timeStamp +".png";
+        String path = "./Screenshot/" + name +" - " + timeStamp +".png";
         try {
             FileHandler.copy(screenshotData , new File(path));
         } catch (IOException e) {
