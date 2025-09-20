@@ -84,5 +84,5 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.7.3
         with:
          folder: public/extent-reports/
-         token: ${{secrets.DNPAS12}}
+         token: ${{ secrets.DNPAS12 }}
           clean:true
