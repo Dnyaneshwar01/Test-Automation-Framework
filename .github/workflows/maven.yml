@@ -38,7 +38,7 @@ jobs:
 
       # Run tests
       - name: Run Test Automation Framework
-        run: mvn test -Dbrowser=chrome -DisLambdaTest=false -DisHeadless=false
+        run: mvn test -Dbrowser=chrome -DisLambdaTest=true -DisHeadless=false
 
       # Upload test logs
       - name: Upload Test Logs
