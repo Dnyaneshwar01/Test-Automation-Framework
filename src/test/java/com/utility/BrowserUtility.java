@@ -31,8 +31,14 @@ public abstract class BrowserUtility {
         if (browserName == Browser.CHROME) {
             if(isHeadless) {
                 ChromeOptions options = new ChromeOptions();
-                options.addArguments("--headless=new");
-                options.addArguments("--window-size=1920,1080");
+                options.addArguments("--headless=new");   // use headless for CI
+                options.addArguments("--no-sandbox");
+                options.addArguments("--disable-dev-shm-usage");
+                options.addArguments("--disable-gpu");
+
+                // optional: unique profile to avoid lock issues
+                String tmpProfile = System.getProperty("java.io.tmpdir") + "/chrome-profile-" + System.currentTimeMillis();
+                options.addArguments("--user-data-dir=" + tmpProfile);
                 driver.set(new ChromeDriver(options));
             }else{
                 driver.set(new ChromeDriver());
