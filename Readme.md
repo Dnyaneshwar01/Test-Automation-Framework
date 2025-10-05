@@ -65,6 +65,7 @@ Hi, I’m Dnyaneshwar Ubale, a passionate Automation Test Engineer with 3.5 year
  - OpenCSV (CSV files)
  - Apache POI (Excel files)
  - JSON test data
+ - 
 ## Installation
 
 Clone the repository:
@@ -72,6 +73,7 @@ Clone the repository:
 ---
     bash
  git clone https://github.com/Dnyaneshwar01/Test-Automation-Framework.git
+ 
  cd Test-Automation-Framework
 ---
 
@@ -80,8 +82,3 @@ Run test
     bash
   mvn test -Dbrowser=chrome -DisLambdaTest=false -DisHeadless=true
 ---
-
-
-
-    
-
