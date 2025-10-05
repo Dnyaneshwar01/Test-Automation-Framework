@@ -72,7 +72,6 @@ Clone the repository:
 ---
     bash
  git clone https://github.com/Dnyaneshwar01/Test-Automation-Framework.git
- 
  cd Test-Automation-Framework
 ---
 
@@ -85,3 +84,4 @@ Run test
 
 
     
+
