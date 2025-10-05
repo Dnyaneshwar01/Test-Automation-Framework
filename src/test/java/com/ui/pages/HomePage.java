@@ -17,6 +17,7 @@ public class HomePage extends BrowserUtility {
 
     public HomePage(Browser browser, boolean isHeadless) {
         super(browser,isHeadless);
+
         goToWebsite(readProperty(QA, "URL"));
         maximizeWindow();
     }

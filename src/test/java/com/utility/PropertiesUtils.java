@@ -25,4 +25,8 @@ public class PropertiesUtils {
         String value = properties.getProperty(propertyName.toUpperCase());
         return value;
     }
+
+//    String env = config.getProperty("application.environment");
+//    String baseUrl = config.getProperty("env." + env + ".base.url");
+
 }
