@@ -1,9 +1,10 @@
 Test Automation Framework
+
 This is a Test Automation Framework built with Selenium WebDriver + Java + TestNG.
 
 It supports data-driven testing, cross-browser execution on LambdaTest, and integrates with GitHub Actions for CI/CD.
 
-Author
+Author: 
 Dnyaneshwar Ubale
 
 EmailAddress: dnyaneshwarubale6877@gmail.com
@@ -68,3 +69,4 @@ cd Test-Automation-Framework
 Run test
 bash
 mvn test -Dbrowser=chrome -DisLambdaTest=false -DisHeadless=true
+
