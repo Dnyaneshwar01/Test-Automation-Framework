@@ -14,8 +14,12 @@ import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -35,9 +39,9 @@ public abstract class BrowserUtility {
         this.driver.set(driver);
     }
 
-    public BrowserUtility(Browser browserName,boolean isHeadless) {
+    public BrowserUtility(Browser browserName, boolean isHeadless) {
         if (browserName == Browser.CHROME) {
-            if(isHeadless) {
+            if (isHeadless) {
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--headless=new");   // use headless for CI
                 options.addArguments("--no-sandbox");
@@ -48,11 +52,10 @@ public abstract class BrowserUtility {
                 String tmpProfile = System.getProperty("java.io.tmpdir") + "/chrome-profile-" + System.currentTimeMillis();
                 options.addArguments("--user-data-dir=" + tmpProfile);
                 driver.set(new ChromeDriver(options));
-            }else{
+            } else {
                 driver.set(new ChromeDriver());
             }
-        }
-        else if (browserName == Browser.EDGE) {
+        } else if (browserName == Browser.EDGE) {
             if (isHeadless) {
                 EdgeOptions options = new EdgeOptions();
                 options.addArguments("--headless");
@@ -61,14 +64,12 @@ public abstract class BrowserUtility {
             } else {
                 driver.set(new EdgeDriver());
             }
-        }
-
-        else if (browserName == Browser.FIREFOX) {
+        } else if (browserName == Browser.FIREFOX) {
             if (isHeadless) {
                 FirefoxOptions options = new FirefoxOptions();
                 options.addArguments("--headless=old");
                 driver.set(new FirefoxDriver(options));
-            }else {
+            } else {
                 driver.set(new FirefoxDriver());
             }
         }
@@ -102,7 +103,7 @@ public abstract class BrowserUtility {
                 WebElement element = driver.get().findElement(locator);
                 ((JavascriptExecutor) driver.get()).executeScript("arguments[0].click();", element);
             } catch (Exception jsEx) {
-                logger.error("JavaScript click also failed for locator: " + locator,jsEx);
+                logger.error("JavaScript click also failed for locator: " + locator, jsEx);
             }
         }
     }
@@ -136,19 +137,29 @@ public abstract class BrowserUtility {
     }
 
 
-    public String takeScreenshot(String name)  {
-        TakesScreenshot screenshot= (TakesScreenshot) driver.get();
-        File screenshotData = screenshot.getScreenshotAs(OutputType.FILE);
-        Date date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH-mm-ss");
-        String timeStamp = simpleDateFormat.format(date);
-        String path = "./Screenshot/" + name +" - " + timeStamp +".png";
+    public String takeScreenshot(String testName) {
         try {
-            FileHandler.copy(screenshotData , new File(path));
+            Path screenshotDir = Paths.get(System.getProperty("user.dir"), "target",
+                    "screenshots");
+
+            Files.createDirectories(screenshotDir);
+
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            String fileName = testName.replaceAll("[^a-zA-Z0-9_-]", "_")
+                    + "_" + timeStamp + ".png";
+
+            Path destinationPath = screenshotDir.resolve(fileName);
+
+            TakesScreenshot screenshot = (TakesScreenshot) driver.get();
+            File source = screenshot.getScreenshotAs(OutputType.FILE);
+
+            FileHandler.copy(source, destinationPath.toFile());
+
+            return destinationPath.toString();
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-        return path;
     }
 
     public void quit() {
@@ -160,8 +171,8 @@ public abstract class BrowserUtility {
         element.sendKeys(keyToEnter);
     }
 
-    public List<String> getAllVisibleText(By locator){
-        List<WebElement> elementList= driver.get().findElements(locator);
+    public List<String> getAllVisibleText(By locator) {
+        List<WebElement> elementList = driver.get().findElements(locator);
         List<String> visibleTextList = new ArrayList<String>();
         for (WebElement element : elementList) {
             waitUntilElementDisplay(element);
@@ -179,8 +190,8 @@ public abstract class BrowserUtility {
         return waitUntilElementDisplay(locator, 30); // default 30s timeout
     }
 
-    public WebElement waitUntilElementDisplay(WebElement webElement){
-        return waitUntilElementDisplay(webElement,30);
+    public WebElement waitUntilElementDisplay(WebElement webElement) {
+        return waitUntilElementDisplay(webElement, 30);
     }
 
     public WebElement waitUntilElementDisplay(By locator, int timeoutInSeconds) {
@@ -195,10 +206,10 @@ public abstract class BrowserUtility {
         }
     }
 
-    public WebElement waitUntilElementDisplay(WebElement webElement , int timeoutInSeconds){
+    public WebElement waitUntilElementDisplay(WebElement webElement, int timeoutInSeconds) {
         try {
             WebDriverWait wait = new WebDriverWait(driver.get(), Duration.ofSeconds(timeoutInSeconds));
-            WebElement visibleElement =  wait.until(ExpectedConditions.visibilityOf(webElement));
+            WebElement visibleElement = wait.until(ExpectedConditions.visibilityOf(webElement));
             logger.info("Element located and visible: " + visibleElement);
             return visibleElement;
         } catch (Exception e) {
@@ -212,11 +223,11 @@ public abstract class BrowserUtility {
         logger.info("Implicit wait set to " + timeoutInSeconds + " seconds");
     }
 
-    public void selectFormDropdown(By dropdownLocator, String optionToselect){
+    public void selectFormDropdown(By dropdownLocator, String optionToselect) {
         logger.info("Finding element with the locator", dropdownLocator);
         WebElement element = driver.get().findElement(dropdownLocator);
         Select select = new Select(element);
-        logger.info("selecting"+optionToselect+ "value form dropdown");
+        logger.info("selecting" + optionToselect + "value form dropdown");
         select.selectByVisibleText(optionToselect);
     }
 
@@ -244,7 +255,7 @@ public abstract class BrowserUtility {
 
 
     /**
-     *  mouse hover actions
+     * mouse hover actions
      */
     public void mouseHover(By locator) {
         WebElement element = getDriver().findElement(locator);
